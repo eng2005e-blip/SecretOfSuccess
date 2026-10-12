@@ -16,19 +16,24 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
-        java-version: '11'
+        java-version: '17'
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
         channel: 'stable'
-        flutter-version: '3.10.6'
+        flutter-version: '3.19.6'
+
+    - name: Repair and Migration for Android Gradle
+      run: |
+        flutter config --enable-android
+        flutter create . --platforms android
 
     - name: Get dependencies
       run: flutter pub get
 
     - name: Build APK
-      run: flutter build apk --release --no-sound-null-safety || flutter build apk --release
+      run: flutter build apk --release
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
