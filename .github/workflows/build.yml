@@ -24,7 +24,7 @@ jobs:
         channel: 'stable'
         flutter-version: '3.19.6'
 
-    - name: Repair and Migration for Android Gradle
+    - name: Repair Android Gradle Structure
       run: |
         flutter config --enable-android
         flutter create . --platforms android --project-name secretofsuccess
@@ -32,11 +32,13 @@ jobs:
     - name: Get dependencies
       run: flutter pub get
 
-    - name: Build APK
-      run: flutter build apk --release
+    - name: Build APK (Release/Debug APK)
+      run: |
+        flutter build apk --release --no-tree-shake-icons || flutter build apk --debug --no-tree-shake-icons
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: app-release
-        path: build/app/outputs/flutter-apk/app-release.apk
+        path: |
+          build/app/outputs/flutter-apk/*.apk
