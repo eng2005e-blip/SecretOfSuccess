@@ -24,21 +24,19 @@ jobs:
         channel: 'stable'
         flutter-version: '3.19.6'
 
-    - name: Repair Android Gradle Structure
+    - name: Clean & Recreate Android Files
       run: |
-        flutter config --enable-android
+        rm -rf android
         flutter create . --platforms android --project-name secretofsuccess
 
     - name: Get dependencies
       run: flutter pub get
 
-    - name: Build APK (Release/Debug APK)
-      run: |
-        flutter build apk --release --no-tree-shake-icons || flutter build apk --debug --no-tree-shake-icons
+    - name: Build APK
+      run: flutter build apk --release --no-tree-shake-icons
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: app-release
-        path: |
-          build/app/outputs/flutter-apk/*.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
