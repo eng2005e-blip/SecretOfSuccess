@@ -27,7 +27,7 @@ jobs:
     - name: Repair and Migration for Android Gradle
       run: |
         flutter config --enable-android
-        flutter create . --platforms android
+        flutter create . --platforms android --project-name secretofsuccess
 
     - name: Get dependencies
       run: flutter pub get
